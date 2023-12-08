@@ -23,3 +23,7 @@ brew install k6
 ```
 k6 run script.js
 ```
+
+## 参考
+- https://christina04.hatenablog.com/entry/envoy-circuit-breaker
+- https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/circuit_breaker.proto
