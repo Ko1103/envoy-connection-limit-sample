@@ -1,14 +1,26 @@
-Demo for connection limit.
+# Demo envoy connection limit.
+リクエスト先のサーバに同時接続台数の制限がある場合、クライアントでconnectionを制限するなどの方法がある。
+Node.jsなどのアプリケーションでコネクション数を制限できるが、envoyを使ってネットワークの設定とアプリケーションを分けられる方がよいのでそれを試す。
 
-Client -- envoy(Side car) --> Connection Limit --> Service A
+## Description
 
-Service Aは同時接続台数に制限があるので、envoyで弾くようにする
+想定している構成(K8sの場合)
 
-k6で負荷をかけて実際に動作するか見る
+```
+Pod[Node.js + envoy(as side car)] -> Service A
+```
+
+demoで用意した構成
+
+```
+K6 --> envoy(Side car) --> envoy(side car with Service A) --> Service A
+```
+
+Service Aは同時接続台数に制限があり、envoyでPodから1つだけConnectionを貼りにいくことができるか検証
+ServiceA側の接続台数制限を表現するために、Service Aの前段にもenvoyを用意
 
 ## 環境
 - M1 Mac(OS: mac OS Monterey)
-
 
 ## 準備
 - docker desktopをinstall
