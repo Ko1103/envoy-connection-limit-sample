@@ -4,16 +4,24 @@ services:
     build:
       context: ./envoy
       dockerfile: Dockerfile
-    depends_on:
-      service-a:
-        condition: service_started
-    #   service-envoy-2:
-    #     condition: service_healthy
     ports:
     - 8001:8001
     - 8080:8080
     volumes:
       - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml
+
+
+  envoy-service-a:
+    build:
+      context: ./envoy-service-a
+      dockerfile: Dockerfile
+    depends_on:
+      service-a:
+        condition: service_started
+    ports:
+    - 3001:3001
+    volumes:
+      - ./envoy-service-a/envoy.yaml:/etc/envoy/envoy.yaml
 
   service-a:
     build:
@@ -21,6 +29,8 @@ services:
       dockerfile: Dockerfile
     ports:
     - 3000:3000
+    volumes:
+      - ./service-a/server.js:/app/server.js
     # depends_on:
     #   service-envoy-1:
     #     condition: service_healthy
