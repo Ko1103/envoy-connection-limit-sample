@@ -56,9 +56,9 @@ export const options = {
 // See https://grafana.com/docs/k6/latest/examples/get-started-with-k6/ to learn more
 // about authoring k6 scripts.
 //
-const okCount = new Counter('http_res_200');
-const serverUnavailableCount = new Counter('http_res_503');
-const gatewayTimeoutCount = new Counter('http_res_504');
+const okCount = new Counter('http_res_st_200');
+const serverUnavailableCount = new Counter('http_res_st_503');
+const gatewayTimeoutCount = new Counter('http_res_st_504');
 
 export default function() {
   const res = http.get("http://localhost:8080");
