@@ -30,7 +30,11 @@ ServiceA側の接続台数制限を表現するために、Service Aの前段に
 brew install k6
 ```
 
-## 負荷掛け方
+## Quick Start
+
+```
+docker compose up
+```
 
 ```
 k6 run script.js
