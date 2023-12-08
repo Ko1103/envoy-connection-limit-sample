@@ -6,7 +6,7 @@ export const options = {
   // A number specifying the number of VUs to run concurrently.
   vus: 15,
   // A string specifying the total duration of the test run.
-  duration: '1m',
+  duration: '60s',
 
   // The following section contains configuration options for execution of this
   // test script in Grafana Cloud.
