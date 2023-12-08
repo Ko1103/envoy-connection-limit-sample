@@ -1,4 +1,7 @@
 # Demo envoy connection limit.
+
+<img src="https://raw.githubusercontent.com/Ko1103/envoy-connection-limit-sample/c55ce971e7996b167d415f01f4ee5e3f60e25ab2/assets/test_result.png" />
+
 リクエスト先のサーバに同時接続台数の制限がある場合、クライアントでconnectionを制限するなどの方法がある。
 Node.jsなどのアプリケーションでコネクション数を制限できるが、envoyを使ってネットワークの設定とアプリケーションを分けられる方がよいのでそれを試す。
 
@@ -39,6 +42,7 @@ docker compose up
 ```
 k6 run script.js
 ```
+
 
 ## 参考
 - https://christina04.hatenablog.com/entry/envoy-circuit-breaker
