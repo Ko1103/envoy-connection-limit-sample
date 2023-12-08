@@ -1,5 +1,6 @@
 import http from 'k6/http';
 import { sleep ,check } from 'k6';
+import { Counter  } from 'k6/metrics';
 
 export const options = {
   // A number specifying the number of VUs to run concurrently.
@@ -55,10 +56,28 @@ export const options = {
 // See https://grafana.com/docs/k6/latest/examples/get-started-with-k6/ to learn more
 // about authoring k6 scripts.
 //
+const okCount = new Counter('http_res_200');
+const serverUnavailableCount = new Counter('http_res_503');
+const gatewayTimeoutCount = new Counter('http_res_504');
+
 export default function() {
   const res = http.get("http://localhost:8080");
   check(res, {
     "is status 200": (r) => r.status == 200,
   });
+  switch (res.status) {
+    case 200:
+      okCount.add(1);
+      break;
+    case 503:
+      serverUnavailableCount.add(1);
+      break;
+    case 504:
+      gatewayTimeoutCount.add(1);
+      break;
+    default:
+      console.log(`unexpected status code: ${res.status}, body: ${res.body}`);
+  }
+
   sleep(1);
 }
