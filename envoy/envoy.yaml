@@ -11,6 +11,10 @@ static_resources:
               typed_config:
                 "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
                 stat_prefix: ingress_http
+                http_filters:
+                - name: envoy.filters.http.router
+                  typed_config:
+                    "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
                 route_config:
                   name: local_route
                   virtual_hosts:
@@ -21,14 +25,10 @@ static_resources:
                             prefix: "/"
                           route:
                             cluster: service-a
-                http_filters:
-                - name: envoy.filters.http.router
-                  typed_config:
-                    "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
   clusters:
     - name: service-a
-      type: STRICT_DNS
-      lb_policy: ROUND_ROBIN
+      type: LOGICAL_DNS
+      dns_lookup_family: V4_ONLY
       load_assignment:
         cluster_name: service1-envoy
         endpoints:
@@ -41,7 +41,7 @@ static_resources:
       # circuit_breakers:
       #   thresholds:
       #     # max_pending_requests: 30
-      #     max_connections: 1
+      #     max_connections: 10
       #     # max_requests: 1
 
 
@@ -51,9 +51,9 @@ admin:
     socket_address:
       address: 0.0.0.0
       port_value: 8001
-overload_manager:
-  resource_monitors:
-    - name: "envoy.resource_monitors.global_downstream_max_connections"
-      typed_config:
-        "@type": type.googleapis.com/envoy.extensions.resource_monitors.downstream_connections.v3.DownstreamConnectionsConfig
-        max_active_downstream_connections: 1
+# overload_manager:
+#   resource_monitors:
+#     - name: "envoy.resource_monitors.global_downstream_max_connections"
+#       typed_config:
+#         "@type": type.googleapis.com/envoy.extensions.resource_monitors.downstream_connections.v3.DownstreamConnectionsConfig
+#         max_active_downstream_connections: 1
