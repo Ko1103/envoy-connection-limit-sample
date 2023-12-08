@@ -1,10 +1,13 @@
 const http = require('http');
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
-    console.log('Get access');
-    res.end('Hello World\n');
+    // wait 1 sec
+    setTimeout(() => {
+        console.log('Send response');
+        res.end('Hello World\n');
+    }, 500);
 });
 
 server.listen(3000,  () => {
