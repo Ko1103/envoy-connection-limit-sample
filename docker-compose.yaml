@@ -1,0 +1,32 @@
+services:
+
+  envoy:
+    build:
+      context: ./envoy
+      dockerfile: Dockerfile
+    depends_on:
+      service-a:
+        condition: service_started
+    #   service-envoy-2:
+    #     condition: service_healthy
+    ports:
+    - 8001:8001
+    - 8080:8080
+    volumes:
+      - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml
+
+  service-a:
+    build:
+      context: ./service-a
+      dockerfile: Dockerfile
+    ports:
+    - 3000:3000
+    # depends_on:
+    #   service-envoy-1:
+    #     condition: service_healthy
+    #   service-envoy-2:
+    #     condition: service_healthy
+    # ports:
+    # - "${PORT_PROXY:-8080}:8080"
+    # - "${PORT_HTTPS:-8443}:8443"
+    # - "${PORT_STATS:-8001}:8001"
