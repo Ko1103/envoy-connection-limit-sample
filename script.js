@@ -3,9 +3,9 @@ import { sleep ,check } from 'k6';
 
 export const options = {
   // A number specifying the number of VUs to run concurrently.
-  vus: 1,
+  vus: ,
   // A string specifying the total duration of the test run.
-  duration: '5s',
+  duration: '60s',
 
   // The following section contains configuration options for execution of this
   // test script in Grafana Cloud.
@@ -60,4 +60,5 @@ export default function() {
   check(res, {
     "is status 200": (r) => r.status == 200,
   });
+  sleep(1);
 }
